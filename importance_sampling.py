@@ -19,33 +19,29 @@ def simulate_monte_carlo_naif(n):
     samples = np.random.standard_normal(n) #on prend un echantillon de taille n de N(0,1)
     indicators = samples>3 #on calcule combien de fois X_i > 3
     estimate = np.mean(indicators) #on calcule la moyenne empirique
-    return estimate, samples
+    variance = (1/n * sum(indicators**2) - estimate**2)/n
+    return estimate, samples, variance
 
 def simulate_importance_sampling(n):
     samples = np.random.normal(3,1,n)
     weights = np.exp(-0.5*((samples)**2 - (samples - 3)**2))
     indicators = samples>3
     estimate = np.mean(indicators*weights)
-    return estimate, samples
+    variance = ((1/n)*sum((indicators*weights)**2) - estimate**2)/n
+    return estimate, samples, variance
 
 #on veut comparer les deux méthodes et leur precision
 #on veut aussi montrer la distribution des points simulés, en different couleur selon s'ils son naif ou IS
 def main():
-    n = 100000000
-    e_naif, s_naif = simulate_monte_carlo_naif(n)
-    e_is,  s_is = simulate_importance_sampling(n)
+    n = 10000
+    e_naif, s_naif, variance_naif = simulate_monte_carlo_naif(n)
+    e_is,  s_is, variance_is = simulate_importance_sampling(n)
 
     print(f"Estimation avec MC naif:{e_naif}")
     print(f"Estimation avec importance sampling:{e_is}")
+    print(f"Variance avec MC naif:{variance_naif}")
+    print(f"Variance avec importance sampling:{variance_is}")
 
-    significant_digits_naif = np.abs(e_naif - (1-norm.cdf(3)))/np.abs((1-norm.cdf(3)))
-    significant_digits_naif = np.floor(-np.log10(2*significant_digits_naif))
-
-    significant_digits_is = np.abs(e_is - (1-norm.cdf(3)))/np.abs((1-norm.cdf(3)))
-    significant_digits_is = np.floor(-np.log10(2*significant_digits_is))
-
-    print(f"Nombre de chiffres significatifs pour MC naif: {significant_digits_naif}")
-    print(f"Nombre de chiffres significatifs pour IS: {significant_digits_is}")
     #on dessine les points simulés montrant la différence entre les deux méthodes, avec la grande cantité
     #de points de IS autour de 2 et les peux nombreux de MC naif.
     plt.figure(figsize=(12,6))
