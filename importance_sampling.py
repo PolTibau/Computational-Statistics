@@ -37,10 +37,14 @@ def main():
     e_naif, s_naif, variance_naif = simulate_monte_carlo_naif(n)
     e_is,  s_is, variance_is = simulate_importance_sampling(n)
 
+
+
     print(f"Estimation avec MC naif:{e_naif}")
     print(f"Estimation avec importance sampling:{e_is}")
     print(f"Variance avec MC naif:{variance_naif}")
     print(f"Variance avec importance sampling:{variance_is}")
+    print(f"Longueur de l'intervalle de confiance a 95% avec MC naif: {2 * 1.96 * np.sqrt(variance_naif)}")
+    print(f"Longueur de l'intervalle de confiance a 95% avec importance sampling: {2 * 1.96 * np.sqrt(variance_is)}")
 
     #on dessine les points simulés montrant la différence entre les deux méthodes, avec la grande cantité
     #de points de IS autour de 2 et les peux nombreux de MC naif.
