@@ -26,7 +26,7 @@ def main():
     estimate, samples = simulate_monte_carlo_naif(n)
     #finalment on calcule le nombre de cifres significatifs qu'on a pour pi
     significant_digits = np.abs(4*estimate - np.pi)/np.abs(np.pi)
-    significant_digits =  np.floor(-np.log10(significant_digits))
+    significant_digits =  np.floor(-np.log10(2*significant_digits))
     
     print(f"Valeur de la surface du disque unité approximé: {estimate}")
     print(f"Valeur de pi approximé: {4*estimate}")
