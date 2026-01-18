@@ -19,7 +19,7 @@ def simulate_monte_carlo_naif(n):
     samples = np.random.standard_normal(n) #on prend un echantillon de taille n de N(0,1)
     indicators = samples>3 #on calcule combien de fois X_i > 3
     estimate = np.mean(indicators) #on calcule la moyenne empirique
-    variance = (1/n * sum(indicators**2) - estimate**2)/n
+    variance = (1/n * sum(indicators**2) - estimate**2)
     return estimate, samples, variance
 
 def simulate_importance_sampling(n):
@@ -27,7 +27,7 @@ def simulate_importance_sampling(n):
     weights = np.exp(-0.5*((samples)**2 - (samples - 3)**2))
     indicators = samples>3
     estimate = np.mean(indicators*weights)
-    variance = ((1/n)*sum((indicators*weights)**2) - estimate**2)/n
+    variance = ((1/n)*sum((indicators*weights)**2) - estimate**2)
     return estimate, samples, variance
 
 #on veut comparer les deux méthodes et leur precision
@@ -36,8 +36,6 @@ def main():
     n = 10000
     e_naif, s_naif, variance_naif = simulate_monte_carlo_naif(n)
     e_is,  s_is, variance_is = simulate_importance_sampling(n)
-
-
 
     print(f"Estimation avec MC naif:{e_naif}")
     print(f"Estimation avec importance sampling:{e_is}")
