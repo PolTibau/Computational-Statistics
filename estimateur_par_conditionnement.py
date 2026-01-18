@@ -42,6 +42,7 @@ def plot_convergence():
     fig.suptitle("Convergence de la variance")
     ax.plot(N, MC_naif_var, N, Cond_var)
     ax.set_xscale('log')
+    ax.set_yscale('log')
     ax.set_xlabel("Taille de l'échantillon (n)")
     ax.set_ylabel("Variance de l'estimateur")
     plt.legend(["MC naif", "Conditionnement"])
